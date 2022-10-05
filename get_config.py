@@ -30,9 +30,7 @@ def get_config():
         'val_idxs_list_path':None,
         
         'num_classes':1,
-        # 'input_resolution':(320,320),
         'input_resolution':320,
-        # 'resolution':(1024,1024),
         'resolution': 1024,
         'pad_size' : 256,
         'dice_threshold':0.5,
