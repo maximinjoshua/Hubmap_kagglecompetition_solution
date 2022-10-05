@@ -4,6 +4,6 @@ pretrain
 log.csv
 kaggle_hubmap_kv3.py
 inference.py
-checkpoints
-dataset
+checkpoints/**
+dataset/**
 scheduler.py

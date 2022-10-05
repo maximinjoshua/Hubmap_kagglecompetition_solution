@@ -69,10 +69,6 @@ class HuBMAPDataset(Dataset):
         self.pad_w = self.pred_sz - self.w % self.pred_sz # add to whole slide
         self.num_h = (self.h + self.pad_h) // self.pred_sz
         self.num_w = (self.w + self.pad_w) // self.pred_sz
-        # self.transforms = get_transforms_test()
-    
-    # def original_img_shape(self):
-    #     return self.shape
         
     def __len__(self):
         return self.num_h * self.num_w
@@ -122,9 +118,6 @@ def infer(model, device):
     model.load_state_dict(torch.load(checkpoint_path))
     # test_csv = pd.read_csv('../input/hubmap-organ-segmentation/test.csv')
     test_csv = pd.read_csv("D:/new_hubmap_with_toms_solution/inputs_folder/test.csv")
-#     test_images_list = os.listdir(DATA)
-#     test_images_list_indices = list(map(lambda x: x.split('.')[0], test_images_list))
-#     print(test_images_list_indices)
     test_rows = []
     ola = 0
     for index, details in test_csv.iterrows():
@@ -133,7 +126,6 @@ def infer(model, device):
         pred_mask = np.zeros((len(dl),dl.pred_sz,dl.pred_sz), dtype=np.uint8)
         i_data = 0
         number_of_small_imgs = len(dl)
-        # rows, columns = int(math.sqrt(number_of_small_imgs)), int(math.sqrt(number_of_small_imgs))
 
         for i in range(len(dl)):
             pred_list = []
@@ -150,10 +142,7 @@ def infer(model, device):
             pred_list.extend([pred['probability'], torch.flip(vpred['probability'], dims = [3]), torch.flip(hpred\
                                                 ['probability'], dims = [1,2])])
             preds = torch.mean(torch.cat(pred_list, dim = 0), dim = 0)
-            # print(preds.shape)
             pred = preds.permute(1,2,0)
-#             pred = pred['probability'].squeeze(0).permute(1,2,0)
-#             # print(pred.shape)
             pred = pred.cpu().numpy()
             pred = cv.resize(pred, (1024,1024), interpolation=cv.INTER_AREA)
             pred = np.where(pred<0.5, 0, 1)
@@ -162,16 +151,12 @@ def infer(model, device):
             qy0,qy1,qx0,qx1 = image['q']
             pred_mask[i_data,0:py1-py0, 0:px1-px0] = pred[py0-qy0:py1-qy0, px0-qx0:px1-qx0] # (pred_sz,pred_sz)
             i_data += 1
-            # print(image['p'],image['q'])
         pred_mask = pred_mask.reshape(dl.num_h*dl.num_w, dl.pred_sz, dl.pred_sz).reshape(dl.num_h, dl.num_w, dl.pred_sz, dl.pred_sz)
         pred_mask = pred_mask.transpose(0,2,1,3).reshape(dl.num_h*dl.pred_sz, dl.num_w*dl.pred_sz)
         pred_mask = pred_mask[:dl.h,:dl.w]
         cv.imwrite('D:/hacking_the_human_body/hubmap-organ-segmentation/finally_a_segmented_image(been_thru_a_lot_fa_dis_mahn)/testtimeaugmentation'+ str(details['id']) + str(ola)+'.png', pred_mask)
         ola+=1
         encoding = mask2enc(pred_mask)
-        # img = enc2mask(encoding, pred_mask.shape)
-        # img = img.astype(np.uint8)*255
-        # cv.imwrite('D:/hacking_the_human_body/hubmap-organ-segmentation/finally_a_segmented_image(been_thru_a_lot_fa_dis_mahn)/segmentedhenckenc2mask'+ str(ola)+'.png', img)
         test_rows.append({
         'id': details['id'],
         'rle': encoding[0] })
@@ -182,6 +167,6 @@ model = Net().to(device)
 model.output_type = ['inference']
 infer_results = infer(model, device)
 
-# submission_df = pd.DataFrame(infer_results)
-# submission_df.to_csv('submission.csv', index=False)
+submission_df = pd.DataFrame(infer_results)
+submission_df.to_csv('submission.csv', index=False)
 

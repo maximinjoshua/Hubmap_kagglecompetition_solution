@@ -2,7 +2,7 @@ import random
 import os
 import torch
 
-VERSION = '02'
+# VERSION = '02'
 
 def get_config():
     config = {
@@ -37,10 +37,6 @@ def get_config():
         'small_mask_threshold':0,
         'multiplier_bin':20,
         'binned_max':7,
-        'deepsupervision':True,
-        'clfhead':True,
-        'clf_threshold':None,
-        
         'tta':1,
         'trn_batch_size':4,
         'test_batch_size':4,        

@@ -62,8 +62,8 @@ if __name__=='__main__':
     for i, fold in enumerate(validation_indices_dict):
         validation_indices_dict[fold] = lung_indices[i] + spleen_indices[i] + prostate_indices[i] + largeintestine_indices[i] \
             + kidney_indices[i]
-    with open('D:/coat/segformer_henck/archive/save_dataset_folder/validation_indices_list', 'wb') as file:
-        pickle.dump(validation_indices_dict, file)
+    # with open('D:/coat/segformer_henck/archive/save_dataset_folder/validation_indices_list', 'wb') as file:
+    #     pickle.dump(validation_indices_dict, file)
         
     val_patient_numbers_list = [
         validation_indices_dict['fold0'], # fold0
