@@ -3,3 +3,7 @@ wandb
 pretrain
 log.csv
 kaggle_hubmap_kv3.py
+inference.py
+checkpoints
+dataset
+scheduler.py
