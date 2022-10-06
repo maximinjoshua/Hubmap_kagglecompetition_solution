@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '../')
 import warnings
 warnings.simplefilter('ignore')
-from utils import fix_seed
+from utils_for_training import fix_seed
 from get_config import get_config
 from get_fold_idxs_list import get_fold_idxs_list
 from run import run
@@ -21,8 +21,6 @@ if __name__=='__main__':
     FOLD_LIST = config['FOLD_LIST']
     VERSION = config['VERSION']
     INPUT_PATH = config['INPUT_PATH']
-    OUTPUT_PATH = config['OUTPUT_PATH']
-    # os.makedirs(OUTPUT_PATH, exist_ok=True)
     device = config['device']
     print(device)
     
@@ -76,10 +74,10 @@ if __name__=='__main__':
     for seed in config['split_seed_list']:
         trn_idxs_list, val_idxs_list = get_fold_idxs_list(data_df, val_patient_numbers_list)
         # # print('shape shape',val_idxs_list)
-        with open(opj(config['OUTPUT_PATH'],f'trn_idxs_list_seed{seed}'), 'wb') as f:
+        with open(opj(config['save_indices_path'],f'trn_idxs_list_seed{seed}'), 'wb') as f:
         # # with open(f'trn_idxs_list_seed{seed}', 'wb') as f:
             pickle.dump(trn_idxs_list, f)
-        with open(opj(config['OUTPUT_PATH'],f'val_idxs_list_seed{seed}'), 'wb') as f:
+        with open(opj(config['save_indices_path'],f'val_idxs_list_seed{seed}'), 'wb') as f:
         # # with open(f'val_idxs_list_seed{seed}', 'wb') as f:
             pickle.dump(val_idxs_list, f)
         run(seed, data_df, None, trn_idxs_list, val_idxs_list)

@@ -4,7 +4,7 @@ import cv2
 from os.path import join as opj
 from torch.utils.data import Dataset
 from transforms import get_transforms_train, get_transforms_valid
-from utils import rle2mask
+from utils_for_training import rle2mask
 
 class HuBMAPDatasetTrain(Dataset):
     def __init__(self, df, config, mode='train'):

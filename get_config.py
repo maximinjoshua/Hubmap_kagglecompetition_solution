@@ -2,7 +2,7 @@ import random
 import os
 import torch
 
-# VERSION = '02'
+VERSION = '02'
 
 def get_config():
     config = {
@@ -11,25 +11,16 @@ def get_config():
         'FOLD_LIST': [0],
         'num_folds': 4,
         'VERSION':VERSION,
-        # 'OUTPUT_PATH':f'./result/{VERSION}/',
-        'OUTPUT_PATH':f'D:/new_hubmap_with_toms_solution/save_dataset_folder/{VERSION}/',
-        'INPUT_PATH':'D:/new_hubmap_with_toms_solution/inputs_folder/',
-        # 'OUTPUT_PATH':f'../input/tomssolutiontrain/save_dataset_folder/{VERSION}/',
-        # 'INPUT_PATH':'../input/tomssolutiontrain/inputs_folder_excluding/',
-        
+        'save_indices_path': os.path.join(os.path.dirname(__file__), 'data_preparation', 'dataset', 'indexes_lists'),
+        'INPUT_PATH': os.path.join(os.path.dirname(__file__), 'data_preparation', 'dataset', 'hubmap-organ-segmentation'),
         'train_data_path_list':[
-            # 'D:/hubmap-kidney-first_place_solution/kaggle-hubmap/src/01_data_preparation/01_01/result/01_01/', 
-            'D:/new_hubmap_with_toms_solution/save_dataset_folder/01/',
-            # '../input/tomssolutiontrain/save_dataset_folder/01',
+            os.path.join(os.path.dirname(__file__), 'data_preparation', 'dataset', 'train_images') 
         ],
-        
-        'model_name':'seresnext101',
         
         'pretrain_path_list':None,
         'trn_idxs_list_path':None, 
         'val_idxs_list_path':None,
         
-        'num_classes':1,
         'input_resolution':320,
         'resolution': 1024,
         'pad_size' : 256,
@@ -81,15 +72,10 @@ def get_config():
                 'multipliers':[0.5,0.3,0.1,0.03,0.003],
             },
         },
-        'snapshot':True,
         
-        'restart_epoch_list':[1,1,1,1,1], 
-        'unfreeze_epoch':1,
-        'num_epochs': 2,
+        'num_epochs': 60,
         'early_stopping':True,
         'patience':5,
-
-        #'FP16':True, always True
         'num_workers':0,
         'device':torch.device("cuda" if torch.cuda.is_available() else "cpu"),
     }

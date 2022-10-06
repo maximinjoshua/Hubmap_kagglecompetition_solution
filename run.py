@@ -17,6 +17,7 @@ from torch.optim import lr_scheduler
 from dicecoefficient import mean_dice_coef
 import wandb
 from model import *
+import os
 
 wandb.init()
 
@@ -24,7 +25,7 @@ wandb.login()
 
 torch.autograd.set_detect_anomaly(True)
 
-is_amp = False
+checkpoints_path = os.path.join(os.path.dirname(__file__), 'checkpoints/')
 
 from get_config import get_config
 config = get_config()
@@ -149,8 +150,7 @@ def run(seed, data_df, pseudo_df, trn_idxs_list, val_idxs_list):
                 if validation_results[0]< val_loss_best:
                     val_loss_best = validation_results[0]
                     counter_es =0
-                    # torch.save(net.state_dict(), output_path + f'/fold{fold}_epoch{epoch}_bestloss.pth')
-                    torch.save(net.state_dict(), f'fold{fold}_epoch{epoch}_bestloss.pth')
+                    torch.save(net.state_dict(), checkpoints_path + f'fold{fold}_epoch{epoch}_bestloss.pth')
                 else:
                     counter_es += 1
                 
@@ -160,8 +160,7 @@ def run(seed, data_df, pseudo_df, trn_idxs_list, val_idxs_list):
 
             if validation_results[1]> val_score_best:
                 val_score_best = validation_results[1]
-                # torch.save(net.state_dict, output_path + f'/fold{fold}_epoch{epoch}_bestscore.pth')
-                torch.save(net.state_dict, f'fold{fold}_epoch{epoch}_bestscore.pth')
+                torch.save(net.state_dict, checkpoints_path + f'fold{fold}_epoch{epoch}_bestscore.pth')
 
             log_df.loc[log_counter,log_cols] = np.array([fold, epoch,
                                                             [ group['lr'] for group in optimizer.param_groups ],
@@ -169,6 +168,6 @@ def run(seed, data_df, pseudo_df, trn_idxs_list, val_idxs_list):
                                                             train_dice_score, validation_results[1],
                                                                 ], dtype='object')
             log_counter += 1
-        log_df.to_csv('D:/coat/segformer_henck/archive/segformer-mit-b2/log/log.csv', index = False)
+        log_df.to_csv(checkpoints_path + 'log.csv', index = False)
 
         print(f"end of fold {fold}")
