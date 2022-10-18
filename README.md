@@ -10,17 +10,14 @@ Before training the model, the dataset must be downloaded and tiled. We can down
 cd into data_preparation/dataset folder
 
 ```
-
 cd data_preparation/dataset
 ```
 and run
 ```
-
 python download_kaggle_dataset.py
 ```
 This command will download the competition dataset in the dataset folder and unzip it's contents. Now come back to the /data_preparation folder and run
 ```
-
 python data_preparation.py
 ```
 This command will tile the competition dataset and save the tileed images in /data_preparation/dataset/train_images. Now you have your tiled dataset ready for training. You can change the tile size and tile shift in the config part of data_preparation.py
