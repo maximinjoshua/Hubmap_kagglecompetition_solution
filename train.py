@@ -22,6 +22,7 @@ if __name__=='__main__':
     VERSION = config['VERSION']
     INPUT_PATH = config['INPUT_PATH']
     device = config['device']
+    os.makedirs(config['save_indices_path'], exist_ok= True)
     print(device)
     
     # import data 
@@ -42,7 +43,7 @@ if __name__=='__main__':
     trn_df['binned'] = trn_df['binned'].apply(lambda x:config['binned_max'] if x>=config['binned_max'] else x)
     trn_df_1 = trn_df[trn_df['is_masked']==True]
 
-    data_df['image_name'] = data_df['filename_img'].apply(lambda x: int(x.split('_')[0]))
+    data_df['image_name'] = data_df['filename_img'].apply(lambda x: int(x.split('\\')[-1].split('_')[0]))
 
     validation_indices_dict = {'fold0': None, 'fold1': None, 'fold2' : None, 'fold3': None}
     lung_val_data = train_df[train_df['organ']== 'lung'].sample(int(len(train_df[train_df['organ'] == 'lung'])*0.2)*config['num_folds'], replace=False)['id'].tolist()
@@ -80,4 +81,5 @@ if __name__=='__main__':
         with open(opj(config['save_indices_path'],f'val_idxs_list_seed{seed}'), 'wb') as f:
         # # with open(f'val_idxs_list_seed{seed}', 'wb') as f:
             pickle.dump(val_idxs_list, f)
+        print(len(trn_idxs_list))
         run(seed, data_df, None, trn_idxs_list, val_idxs_list)

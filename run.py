@@ -12,7 +12,7 @@ from torch import nn, optim
 from torch.utils.data import DataLoader
 from dataset import HuBMAPDatasetTrain
 # from models import build_model
-from scheduler import CosineLR
+# from scheduler import CosineLR
 from torch.optim import lr_scheduler
 from dicecoefficient import mean_dice_coef
 import wandb
@@ -26,6 +26,7 @@ wandb.login()
 torch.autograd.set_detect_anomaly(True)
 
 checkpoints_path = os.path.join(os.path.dirname(__file__), 'checkpoints/')
+os.makedirs(checkpoints_path, exist_ok= True)
 
 from get_config import get_config
 config = get_config()

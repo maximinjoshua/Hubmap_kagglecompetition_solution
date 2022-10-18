@@ -45,7 +45,7 @@ def generate_data(filename, i, img_patch, mask_patch, config):
 class HuBMAPDataset(Dataset):
     def __init__(self, df, filename, config, mode='train'):
         super().__init__()
-        path = opj(config['INPUT_PATH'],mode,filename+'.tiff')
+        path = opj(config['INPUT_PATH'],mode + '_images',filename+'.tiff')
         self.data = rasterio.open(path)
         if self.data.count != 3:
             subdatasets = self.data.subdatasets

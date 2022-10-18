@@ -73,7 +73,7 @@ def get_config():
             },
         },
         
-        'num_epochs': 60,
+        'num_epochs': 50,
         'early_stopping':True,
         'patience':5,
         'num_workers':0,

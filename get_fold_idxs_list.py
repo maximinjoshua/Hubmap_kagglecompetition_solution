@@ -4,7 +4,7 @@ from get_config import get_config
 config = get_config()
 
 def get_fold_idxs_list(data_df, val_patient_numbers_list):
-    print('val_pati', val_patient_numbers_list)
+    # print('val_pati', val_patient_numbers_list)
     trn_idxs_list = []
     val_idxs_list = []
     for fold in range(len(val_patient_numbers_list)):

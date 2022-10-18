@@ -38,6 +38,7 @@ if __name__=='__main__':
     config = get_config()
     INPUT_PATH = config['INPUT_PATH']
     OUTPUT_PATH = config['OUTPUT_PATH']
+    os.makedirs(INPUT_PATH, exist_ok = True)
     os.makedirs(OUTPUT_PATH, exist_ok=True)
     device = config['device']
     print(device)
