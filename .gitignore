@@ -1,6 +1,5 @@
 validation_organ_threshold.py
 wandb
-pretrain
 log.csv
 kaggle_hubmap_kv3.py
 inference.py
