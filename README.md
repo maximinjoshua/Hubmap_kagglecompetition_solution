@@ -20,7 +20,7 @@ This command will download the competition dataset in the dataset folder and unz
 ```
 python data_preparation.py
 ```
-This command will tile the competition dataset and save the tileed images in /data_preparation/dataset/train_images. Now you have your tiled dataset ready for training. You can change the tile size and tile shift in the config part of data_preparation.py
+This command will tile the competition dataset and save the tiled images in /data_preparation/dataset/train_images. Now you have your tiled dataset ready for training. You can change the tile size and tile shift in the config part of data_preparation.py
 # Training
 The Segformer encoder is loaded with mit b2 pretrained weights. The decoder is left out with it's initial random weights. The entire model is trained with the tiled competition dataset. I trained the model for 60 epochs, but it never seemed to overfit till then.
 # Inference
