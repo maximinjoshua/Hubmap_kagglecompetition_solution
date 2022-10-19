@@ -15,6 +15,7 @@ from timm.models.registry import register_model
 from timm.models.vision_transformer import _cfg
 
 import math
+import os
 
 class DWConv(nn.Module):
 	def __init__(self, dim=768):
@@ -425,7 +426,7 @@ class mit_b5(MixVisionTransformer):
 
 
 # pretrain_dir ='/root/share/data/pretrain_model'
-pretrain_dir =  'D:/coat/segformer_henck/archive/segformer-mit-b2/pretrain'
+pretrain_dir =  os.path.join(os.path.dirname(__file__), 'pretrain')
 if 1:
 	cfg = dict(
 		mit_b0 = dict(
